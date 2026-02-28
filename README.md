@@ -1,4 +1,4 @@
-# Snapshot Diff Logger
+# CodeTrace
 
 一个 VS Code 插件，用于记录代码编辑过程并支持回放，就像延时摄影一样。
 
@@ -11,10 +11,11 @@
 ## 使用方法
 
 1. 打开命令面板 (Ctrl+Shift+P / Cmd+Shift+P)。
-2. 运行 `Snapshot Diff Logger: Start Recording` 开始录制。
+2. 运行 `CodeTrace: Start Recording` 开始录制。
 3. 编写代码，插件会自动记录。
-4. 运行 `Snapshot Diff Logger: Stop Recording` 停止并保存 JSON。
-5. 运行 `Snapshot Diff Logger: Playback` 加载 JSON 并回放。
+4. 运行 `CodeTrace: Stop Recording` 停止并保存 JSON。
+5. 运行 `CodeTrace: Playback` 加载 JSON 并回放。
+6. 可以使用 Live Server 插件打开 `index.html` 然后上传文件查看。
 
 ## 文件结构
 
