@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CodeTrace | Lightweight Code Evolver</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CodeTrace<small style="font-size: 14px; color: #8b949e; margin-left: 10px;">v1.0</small></h1>
+        </header>
+
+        <section class="card" id="recorder-card">
+            <span class="label" id="record-status"><span class="status-dot"></span>Ready</span>
+            <textarea id="editor" spellcheck="false" placeholder="在此开始编写代码..."></textarea>
+            <div class="controls">
+                <button class="primary" onclick="startRec()">Start Recording</button>
+                <button onclick="stopAndDownload()">Stop & Download</button>
+            </div>
+        </section>
+
+        <section class="card">
+            <span class="label">Playback Preview <span id="file-status" style="color:var(--accent-blue)"></span></span>
+            <div id="display">// 期待你的表演...</div>
+            <div class="controls">
+                <button onclick="player.play()">Play</button>
+                <button onclick="player.pause()">Pause</button>
+                <button onclick="document.getElementById('file-input').click()">Upload JSON</button>
+                <input type="file" id="file-input" style="display:none" accept=".json" onchange="handleFileUpload(event)">
+                <button id="speed-btn" onclick="toggleSpeed()">Speed: 1x</button>
+            </div>
+        </section>
+    </div>
+
+    <script type="module">
+        import { CodeRecorder } from './recorder.js';
+        import { CodePlayer } from './player.js';
+
+        const editor = document.getElementById('editor');
+        const display = document.getElementById('display');
+        const player = new CodePlayer(display);
+        const rec = new CodeRecorder(editor);
+        const speedBtn = document.getElementById('speed-btn');
+
+        // 全局绑定以便按钮调用
+        window.player = player;
+        window.startRec = () => { rec.start(); };
+        window.stopAndDownload = () => { rec.download(); };
+
+        window.handleFileUpload = (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+            document.getElementById('file-status').innerText = ` - Loaded: ${file.name}`;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    player.load(JSON.parse(e.target.result));
+                } catch(err) { alert("Invalid JSON file"); }
+            };
+            reader.readAsText(file);
+        };
+
+        let currentSpeed = 1;
+        window.toggleSpeed = () => {
+            currentSpeed = currentSpeed >= 4 ? 1 : currentSpeed * 2;
+            player.setSpeed(currentSpeed);
+            speedBtn.innerText = `Speed: ${currentSpeed}x`;
+        };
+    </script>
+</body>
+</html>

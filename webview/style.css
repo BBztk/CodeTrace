@@ -1,0 +1,171 @@
+/* --- 变量定义 --- */
+:root {
+  --bg-dark: #1e1e1e;           /* VS Code 经典背景 */
+  --panel-dark: #252526;        /* 面板颜色 */
+  --text-main: #d4d4d4;         /* 主文字颜色 */
+  --text-dim: #858585;          /* 辅助文字 */
+  --accent-blue: #007acc;       /* VS Code 蓝色 */
+  --accent-purple: #c586c0;     /* 关键字紫色 */
+  --error: #f48771;
+  --border-color: #3c3c3c;
+  --font-mono: "Consolas", "Monaco", "Courier New", monospace;
+}
+
+/* --- 基础样式 --- */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background-color: #181818;
+  color: var(--text-main);
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 850px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* --- 卡片面板 --- */
+.card {
+  background: var(--panel-dark);
+  border: 1px solid var(--border-color);
+  border-radius: 8px; /* VS Code 更方正一点 */
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+.label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* --- 编辑器区域 --- */
+textarea#editor {
+  width: 100%;
+  height: 220px;
+  background: #1e1e1e;
+  color: #9cdcfe; /* VS Code 变量蓝 */
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 16px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.5;
+  outline: none;
+  resize: vertical;
+  tab-size: 4; /* 修改为 4 个空格 */
+}
+
+textarea#editor:focus {
+  border-color: var(--accent-blue);
+}
+
+/* --- 回放预览区 --- */
+#display {
+  width: 100%;
+  height: 220px; /* 固定高度配合自动滚动 */
+  background: #1e1e1e;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 16px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: #ce9178; /* VS Code 字符串橙 */
+  tab-size: 4;
+  overflow-y: auto; /* 允许滚动 */
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* --- VS Code 风格精准光标 --- */
+.vs-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.2em;
+  background: #aeafad; /* VS Code 光标灰 */
+  margin-left: 0px;
+  margin-right: -2px; /* 负边距确保不挤占文字位置 */
+  vertical-align: middle;
+  animation: vscode-blink 1s step-end infinite;
+}
+
+@keyframes vscode-blink {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* --- 按钮与控制 --- */
+.controls {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+button {
+  background: #333333;
+  color: #cccccc;
+  border: 1px solid #454545;
+  padding: 8px 16px;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #444444;
+}
+
+button.primary {
+  background: var(--accent-blue);
+  color: white;
+  border: none;
+}
+
+button.primary:hover {
+  background: #1177bb;
+}
+
+/* --- 录制状态动画 --- */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--text-dim);
+  border-radius: 50%;
+}
+
+.recording .status-dot {
+  background: var(--error);
+  box-shadow: 0 0 8px var(--error);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 1; }
+}
